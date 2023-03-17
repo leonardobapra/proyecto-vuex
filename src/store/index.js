@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
-
+import { getUser } from '@/api'
+import { COMMIT_UPDATE_USERNAME } from '@/common'
 const store = createStore({
   state() {
     return {
@@ -12,14 +13,16 @@ const store = createStore({
     }
   },
   mutations: {
-    updateUsername(state, username) {
+    [COMMIT_UPDATE_USERNAME](state, username) {
       state.username = username
     }
   },
   actions: {
-    updateUsername({ commit, state }, username) {
+    async updateUsername({ commit, state }, username) {
       console.log('entra', state)
-      commit('updateUsername', username)
+      const user = await getUser(1)
+      console.log(user)
+      commit(COMMIT_UPDATE_USERNAME, user.username)
     }
   }
 })
